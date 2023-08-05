@@ -3,26 +3,23 @@
     <el-card class="box-card">
       <template #header>
         <div class="card-header">
-          <span class="title">注册</span>
+          <span class="title">登录</span>
         </div>
       </template>
-      <el-form :model="form" label-width="80px" label-position="left">
-        <el-form-item label="邮箱" :required="true">
-          <el-input v-model="form.email" />
-          <el-button style="margin-left: 15px;" type="primary" @click="getEmailVerifyCode">获取验证码</el-button>
-        </el-form-item>
-        <el-form-item label="验证码" :required="true">
-          <el-input v-model="form.email" />
-        </el-form-item>
-        <el-form-item label="昵称" :required="true">
+      <el-form :model="form" label-width="100px" label-position="left">
+        <el-form-item label="昵称/邮箱" :required="true">
           <el-input v-model="form.nickname" />
         </el-form-item>
         <el-form-item label="密码" :required="true">
           <el-input v-model="form.password" />
         </el-form-item>
+        <el-form-item label="验证码" :required="true">
+          <el-input v-model="form.password" />
+          <img style="margin-left: 10px;" width="100" height="36" src="http://localhost:9001/captcha"/>
+        </el-form-item>
         <el-form-item>
-          <el-button class="register-btn" type="primary" @click="register">立即注册</el-button>
-          <el-link type="primary" href="/login">已注册，直接登录!</el-link>
+          <el-button class="register-btn" type="primary" @click="register">登录</el-button>
+          <el-link type="primary" href="/register">没有账号，去注册!</el-link>
         </el-form-item>
       </el-form>
     </el-card>
