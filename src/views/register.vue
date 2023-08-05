@@ -4,21 +4,21 @@
       <template #header>
         <div class="card-header">
           <span class="title">注册</span>
-          <!-- <el-button class="button" text>Operation button</el-button> -->
         </div>
       </template>
-      <el-form :model="form" label-width="120px" style="width: 100%;">
-        <el-form-item label="昵称">
-          <el-input v-model="form.nickname" />
-        </el-form-item>
+      <el-form :model="form" label-width="120px" style="width: 500px;">
         <el-form-item label="邮箱">
           <el-input v-model="form.email" />
+          <el-button type="primary" @click="onSubmit">获取验证码</el-button>
+        </el-form-item>
+        <el-form-item label="昵称">
+          <el-input v-model="form.nickname" />
         </el-form-item>
         <el-form-item label="密码">
           <el-input v-model="form.password" />
         </el-form-item>
         <el-form-item>
-          <el-button class="register-btn" type="primary" @click="onSubmit">注册</el-button>
+          <el-button class="register-btn" type="primary" @click="onSubmit">立即注册</el-button>
           <el-link type="primary">已注册，直接登录!</el-link>
         </el-form-item>
       </el-form>
@@ -49,14 +49,15 @@ const onSubmit = () => {
     width: 70%;
     margin-left: 200px;
 
-    .title{
+    .title {
       font-size: 22px;
       font-weight: 600;
     }
+    .register-btn {
+      margin-right: 10px;
+    }
   }
 
-  .register-btn {
-    margin-right: 10px;
-  }
+
 }
 </style>
