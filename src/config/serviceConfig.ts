@@ -11,7 +11,7 @@ interface IServiceConfig {
 const ServiceConfig: IServiceConfig = {
   devProxyBaseUrl: "/api/wjhs",
   devBaseUrl: "http://localhost:9001",
-  devTimeout: 5000,
+  devTimeout: 15000,
 
   prodProxyBaseUrl: "/api/wjhs",
   prodBaseUrl: "https://ilovesshan/wjhs",

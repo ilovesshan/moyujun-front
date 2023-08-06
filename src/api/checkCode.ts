@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
 // 获取邮箱验证码
-export function getEmialVerfofyCode(email: string) {
+export function getEmialVerifyCode(email: string) {
   return request({
     method: "GET",
     url: "/email",

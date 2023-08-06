@@ -1,4 +1,6 @@
+
 import request from "@/utils/request";
+import type { UserRegisterDto } from "@/interface/user";
 
 // 获取用户密码加密的盐
 export function getUserSalt() {
@@ -9,7 +11,7 @@ export function getUserSalt() {
 }
 
 // 用户注册
-export function singIn(data: Map<string, any>) {
+export function singIn(data: UserRegisterDto) {
   return request({
     method: "POST",
     url: "/user/singIn",

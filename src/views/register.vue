@@ -18,10 +18,11 @@
           <el-input :disabled="!isSendEmailCode" v-model="form.username" placeholder="填写用户名（不填写则默认生成）" />
         </el-form-item>
         <el-form-item label="密码" :required="true">
-          <el-input :disabled="!isSendEmailCode" v-model="form.password" placeholder="填写全世界独一无二的密码" />
+          <el-input type="password" :disabled="!isSendEmailCode" v-model="originPwd" placeholder="填写全世界独一无二的密码" />
         </el-form-item>
         <el-form-item>
-          <el-button :disabled="(form.email == '') || (form.verifyCode == '') || (form.password == '')" class="register-btn" type="primary" @click="register">立即注册</el-button>
+          <el-button :disabled="(form.email == '') || (form.verifyCode == '') || (originPwd == '')" class="register-btn"
+            type="primary" @click="register">立即注册</el-button>
           <el-link type="primary" href="/login">已注册，直接登录!</el-link>
         </el-form-item>
       </el-form>
@@ -33,21 +34,43 @@
 import { reactive, ref } from 'vue'
 import { Message } from '@/utils/toast'
 
-const isSendEmailCode = ref(false);
+import type { UserRegisterDto } from "@/interface/user";
 
-const form = reactive({
-  email: '',
-  verifyCode: '',
-  username: '',
-  password: '',
+import RandomUserName from "@/utils/randomUsername";
+import Encrypt from "@/utils/encrypt";
+
+import * as userApi from '@/api/user';
+import * as checkCodeApi from '@/api/checkCode';
+
+
+const isSendEmailCode = ref(false);
+const originPwd = ref("");
+
+const form = reactive<UserRegisterDto>({
+  "email": "",
+  "password": "",
+  "registerFrom": 4,
+  "salt": "",
+  "username": "",
+  "verifyCode": ""
 })
 
-const getEmailVerifyCode = () => {
-  isSendEmailCode.value = true;
+const getEmailVerifyCode = async () => {
+  if (form.email.trim() == "" || !form.email.includes("@qq.com")) {
+    Message.error("请填写QQ电子邮箱");
+    return;
+  }
+  const response = await checkCodeApi.getEmialVerifyCode(form.email);
+  if (response.code == 200) {
+    Message.success(response.message);
+    isSendEmailCode.value = true;
+  } else {
+    Message.error(response.message);
+  }
 }
 
-const register = () => {
-  if (form.email.trim() == "") {
+const register = async () => {
+  if (form.email.trim() == "" || !form.email.includes("@qq.com")) {
     Message.error("请填写QQ电子邮箱");
     return;
   }
@@ -57,9 +80,35 @@ const register = () => {
     return;
   }
 
-  if (form.password.trim() == "") {
+  if (originPwd.value.trim() == "") {
     Message.error("请填写第一无二的密码");
     return;
+  }
+
+  // 请求盐
+  const response1 = await userApi.getUserSalt()
+  if (response1.code == 200) {
+    form.salt = response1.data;
+  }
+
+  // 随机生成用户名
+  if (form.username.trim() == "") {
+    form.username = RandomUserName.genetaror();
+  }
+
+  // 对密码进行加盐以及MD5加密处理
+  const pwd = Encrypt.encrypted(originPwd + form.salt);
+  if (pwd != false) {
+    form.password = pwd;
+  } else {
+    console.log("************加密失败************");
+  }
+  // 请求注册
+  const response2 = await userApi.singIn(form);
+  if (response2.code == 200) {
+    Message.success(response2.message);
+  } else {
+    Message.error(response2.message);
   }
 }
 </script>
