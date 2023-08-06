@@ -7,8 +7,8 @@
         </div>
       </template>
       <el-form :model="form" label-width="100px" label-position="left">
-        <el-form-item label="昵称/邮箱" :required="true">
-          <el-input v-model="form.nickname" />
+        <el-form-item label="用户名/邮箱" :required="true">
+          <el-input v-model="form.username" />
         </el-form-item>
         <el-form-item label="密码" :required="true">
           <el-input v-model="form.password" />
@@ -32,7 +32,7 @@ import { reactive } from 'vue'
 const form = reactive({
   email: '',
   verifyCode: '',
-  nickname: '',
+  username: '',
   password: '',
 })
 

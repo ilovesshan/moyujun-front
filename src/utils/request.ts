@@ -71,4 +71,4 @@ const request = async<T = any>(config: AxiosRequestConfig): Promise<CusResponse<
   });
 }
 
-export default request;
+export default ;
