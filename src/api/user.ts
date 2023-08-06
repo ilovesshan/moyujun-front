@@ -1,6 +1,6 @@
 
 import request from "@/utils/request";
-import type { UserRegisterDto } from "@/interface/user";
+import type { IUserSingUpDto, IUserSingInDto } from "@/interface/user";
 
 // 获取用户密码加密的盐
 export function getUserSalt() {
@@ -11,7 +11,7 @@ export function getUserSalt() {
 }
 
 // 用户注册
-export function singIn(data: UserRegisterDto) {
+export function singIn(data: IUserSingUpDto) {
   return request({
     method: "POST",
     url: "/user/singIn",
@@ -20,10 +20,19 @@ export function singIn(data: UserRegisterDto) {
 }
 
 // 用户登录
-export function singUp(username: string, password: string) {
+export function singUp(data: IUserSingInDto) {
   return request({
     method: "POST",
     url: "/user/singUp",
-    data: { "username": username, "password": password }
+    data: data
+  });
+}
+
+
+// 获取用户详情信息
+export function getUserDetailInfo(id: string) {
+  return request({
+    method: "GET",
+    url: `/user/${id}`,
   });
 }

@@ -34,7 +34,7 @@
 import { reactive, ref } from 'vue'
 import { Message } from '@/utils/toast'
 
-import type { UserRegisterDto } from "@/interface/user";
+import type { IUserSingUpDto } from "@/interface/user";
 
 import RandomUserName from "@/utils/randomUsername";
 import Encrypt from "@/utils/encrypt";
@@ -46,7 +46,7 @@ import * as checkCodeApi from '@/api/checkCode';
 const isSendEmailCode = ref(false);
 const originPwd = ref("");
 
-const form = reactive<UserRegisterDto>({
+const form = reactive<IUserSingUpDto>({
   "email": "",
   "password": "",
   "registerFrom": 4,
@@ -97,7 +97,7 @@ const register = async () => {
   }
 
   // 对密码进行加盐以及MD5加密处理
-  const pwd = Encrypt.encrypted(originPwd + form.salt);
+  const pwd = Encrypt.encrypted(originPwd.value + form.salt);
   if (pwd != false) {
     form.password = pwd;
   } else {
